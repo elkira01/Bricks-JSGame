@@ -2,6 +2,7 @@ window.addEventListener("DOMContentLoaded",function () {
     const visible = "visible";
     const hidden = "hidden";
     let timers = [];
+    let colors = ["chartreuse","crimson","cyan","gold"];
 
 
     //Setting up all the blocks IDs
@@ -17,6 +18,7 @@ window.addEventListener("DOMContentLoaded",function () {
 
         //Collecting the components
         let bricks = [divs[7],divs[8],divs[23],divs[24]];
+
         for (let bricksKey in bricks) {
             bricks[bricksKey].style.visibility = "visible";
         }
@@ -24,11 +26,13 @@ window.addEventListener("DOMContentLoaded",function () {
         return bricks;
     }
     //Moving the square around;
-    function shiftSquare(brick,direction,speed = 500) {
+    function shiftSquare(brick,direction,speed = 500,forever = false) {
+        //let brickColor = colors[rand(0,4,1)];
 
-        document.onkeydown = ()=>{
+        document.onkeydown = (e)=>{
             for (let timersKey in timers) {
                 clearInterval(timers[timersKey]);
+                console.log(e.code);
             }
         }
 
@@ -76,51 +80,126 @@ window.addEventListener("DOMContentLoaded",function () {
         }
         else if (direction === "left"){
 
-            timers[1] = setInterval(function () {
+            if (forever == true){
+                timers[1] = setInterval(function () {
 
-                brick[1].style.visibility = "hidden";
-                brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
-                brick[1].style.visibility = visible;
-                brick[3].style.visibility = "hidden";
-                brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+1).toString());
-                brick[3].style.visibility = visible;
-                brick[0].style.visibility = "hidden";
-                brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+1).toString());
-                brick[0].style.visibility = visible;
-                brick[2].style.visibility = "hidden";
-                brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+1).toString());
-                brick[2].style.visibility = visible;
+                    brick[1].style.visibility = "hidden";
+                    brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
+                    brick[1].style.visibility = visible;
+                    brick[3].style.visibility = "hidden";
+                    brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+1).toString());
+                    brick[3].style.visibility = visible;
+                    brick[0].style.visibility = "hidden";
+                    brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+1).toString());
+                    brick[0].style.visibility = visible;
+                    brick[2].style.visibility = "hidden";
+                    brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+1).toString());
+                    brick[2].style.visibility = visible;
 
-            },speed);
+                },speed);
+            }
+            else{
+                timers[1] = setTimeout(function () {
+
+                    brick[1].style.visibility = "hidden";
+                    brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
+                    brick[1].style.visibility = visible;
+                    brick[3].style.visibility = "hidden";
+                    brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+1).toString());
+                    brick[3].style.visibility = visible;
+                    brick[0].style.visibility = "hidden";
+                    brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+1).toString());
+                    brick[0].style.visibility = visible;
+                    brick[2].style.visibility = "hidden";
+                    brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+1).toString());
+                    brick[2].style.visibility = visible;
+
+                },speed);
+            }
 
         }
         else if (direction === "right"){
 
-            timers[2] = setInterval(function () {
+            if (forever == true){
+                timers[2] = setInterval( ()=> {
 
-                brick[0].style.visibility = "hidden";
-                brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
-                brick[0].style.visibility = visible;
+                    brick[0].style.visibility = "hidden";
+                    brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
+                    brick[0].style.visibility = visible;
 
 
-                brick[2].style.visibility = "hidden";
-                brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))-1).toString());
-                brick[2].style.visibility = visible;
+                    brick[2].style.visibility = "hidden";
+                    brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))-1).toString());
+                    brick[2].style.visibility = visible;
 
-                brick[1].style.visibility = "hidden";
-                brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))-1).toString());
-                brick[1].style.visibility = visible;
-                brick[3].style.visibility = "hidden";
-                brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))-1).toString());
-                brick[3].style.visibility = visible;
+                    brick[1].style.visibility = "hidden";
+                    brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))-1).toString());
+                    brick[1].style.visibility = visible;
+                    brick[3].style.visibility = "hidden";
+                    brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))-1).toString());
+                    brick[3].style.visibility = visible;
 
-            },speed);
+                },speed);
+            }
+            else{
+                timers[2] = setTimeout(function () {
+
+                    brick[0].style.visibility = "hidden";
+                    brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
+                    brick[0].style.visibility = visible;
+
+
+                    brick[2].style.visibility = "hidden";
+                    brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))-1).toString());
+                    brick[2].style.visibility = visible;
+
+                    brick[1].style.visibility = "hidden";
+                    brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))-1).toString());
+                    brick[1].style.visibility = visible;
+                    brick[3].style.visibility = "hidden";
+                    brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))-1).toString());
+                    brick[3].style.visibility = visible;
+
+                },speed);
+            }
 
         }
 
     }
 
+
+
     let brick = squaredBrick();
-    shiftSquare(brick,"down",400);
-    //stopSquare(brick);
+    shiftSquare(brick,"down");
+
+    document.addEventListener("keydown",(e)=>{
+        if (e.code === "ArrowLeft"){
+            shiftSquare(brick,"right",200);
+            shiftSquare(brick,"down");
+        }
+        else if (e.code === "ArrowRight"){
+            shiftSquare(brick,"left",200);
+            shiftSquare(brick,"down");
+        }
+
+    })
+
+
+    //Random number generator
+    function rand(min, max, integer) {
+        if (!integer) {
+            return Math.random() * (max - min) + min;
+        } else {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+    }
+
+    //Coloring bricks
+    function brickColor(brick = [], color) {
+
+        for (let brickKey in brick) {
+            brick[brickKey].style.backgroundColor = color;
+        }
+    }
+
 })
