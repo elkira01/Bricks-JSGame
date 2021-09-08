@@ -1,5 +1,8 @@
 window.addEventListener("DOMContentLoaded",function () {
-    let visible = "visible";
+    const visible = "visible";
+    const hidden = "hidden";
+    let timers = [];
+
 
     //Setting up all the blocks IDs
     let divs = document.getElementsByClassName("s1");
@@ -23,7 +26,6 @@ window.addEventListener("DOMContentLoaded",function () {
     //Moving the square around;
     function shiftSquare(brick,direction,speed = 500) {
 
-        let timers = [];
         document.onkeydown = ()=>{
             for (let timersKey in timers) {
                 clearInterval(timers[timersKey]);
@@ -31,32 +33,51 @@ window.addEventListener("DOMContentLoaded",function () {
         }
 
         if (direction === "down"){
-            //first the lower blocks move
+
             timers[0] = setInterval(function () {
 
-                brick[2].style.visibility = "hidden";
-                brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+16).toString());
-                brick[2].style.visibility = visible;
+                //Stop the bricks movements : Downwards :before base
+                let base = [];
+                base[0] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+16).toString());
+                base[1] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+16).toString())
+                if ( base[0].style.visibility === visible || base[1].style.visibility === visible ){
+                    console.log("block visible");
+                        clearInterval(timers[0]);
+                }
+                else{
 
-                brick[3].style.visibility = "hidden";
-                brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+16).toString());
-                brick[3].style.visibility = visible;
+                    //Start moving
+                    brick[2].style.visibility = "hidden";
+                    brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+16).toString());
+                    brick[2].style.visibility = visible;
 
-                brick[0].style.visibility = "hidden";
-                brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+16).toString());
-                brick[0].style.visibility = visible;
+                    brick[3].style.visibility = "hidden";
+                    brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+16).toString());
+                    brick[3].style.visibility = visible;
+
+                    brick[0].style.visibility = "hidden";
+                    brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+16).toString());
+                    brick[0].style.visibility = visible;
 
 
-                brick[1].style.visibility = "hidden";
-                brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+16).toString());
-                brick[1].style.visibility = visible;
+                    brick[1].style.visibility = "hidden";
+                    brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+16).toString());
+                    brick[1].style.visibility = visible;
 
+                }
+
+                //Stop the bricks movements : Downwards :base
+                if (208 <= parseInt(brick[2].id.substring(1)) && parseInt(brick[2].id.substring(1)) <= 223){
+                    console.log(parseInt(brick[2].id.substring(1)));
+                        clearInterval(timers[0]);
+                }
             },speed);
+
         }
         else if (direction === "left"){
-            //first the lower blocks move
+
             timers[1] = setInterval(function () {
-                console.log(brick[1]);
+
                 brick[1].style.visibility = "hidden";
                 brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
                 brick[1].style.visibility = visible;
@@ -74,11 +95,9 @@ window.addEventListener("DOMContentLoaded",function () {
 
         }
         else if (direction === "right"){
-            //first the lower blocks move
+
             timers[2] = setInterval(function () {
 
-
-                console.log(brick[0]);
                 brick[0].style.visibility = "hidden";
                 brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
                 brick[0].style.visibility = visible;
@@ -101,8 +120,7 @@ window.addEventListener("DOMContentLoaded",function () {
 
     }
 
-
-
-    let b= squaredBrick();
-    shiftSquare(b,"down",500);
+    let brick = squaredBrick();
+    shiftSquare(brick,"down",400);
+    //stopSquare(brick);
 })
