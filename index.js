@@ -3,6 +3,7 @@ window.addEventListener("DOMContentLoaded",function () {
     const hidden = "hidden";
     let timers = [];
     let colors = ["chartreuse","crimson","cyan","gold"];
+    let currentBricks = {"angleBrick":[],"stairBrick":[],"rectBrick":[]}; //A variable to track down the current position of the moving brick, witch might be usefull in case we need to apply instant modification
 
 
     //Setting up all the blocks IDs
@@ -180,6 +181,7 @@ window.addEventListener("DOMContentLoaded",function () {
 
     //Generating a L-brick
     let rightAngleBrick = function(orientation){
+
         let bricks = {
             "h1":[divs[6],divs[22],divs[23],divs[24]],
             "h2":[divs[22],divs[6],divs[7],divs[8]],
@@ -241,7 +243,7 @@ window.addEventListener("DOMContentLoaded",function () {
     /*A function  witch will perform a quick type recognition of the given brick, the variable function will be passed to
     brick shifting handler */
     let brickType = function(brick = []){
-        console.log(intID(brick[1]));
+
         if (intID(brick[1]) === intID(brick[0])+16 && intID(brick[2]) === intID(brick[0])+17 && intID(brick[3]) === intID(brick[0])+18)
             return  "h1";
         else if (intID(brick[1]) === intID(brick[0])-16 && intID(brick[2]) === intID(brick[0])-15 && intID(brick[3]) === intID(brick[0])-14)
@@ -262,7 +264,7 @@ window.addEventListener("DOMContentLoaded",function () {
 
 
     //Moving a brick around
-    function angleShift(brick = [], type = "",direction = "down",speed = 800){
+    function angleShift(brick = [], type = brickType(brick),direction = "down",speed = 800){
 
         document.onkeydown = (e)=>{
             for (let timersKey in timers) {
@@ -298,6 +300,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[0].style.visibility = "hidden";
                     brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+16).toString());
                     brick[0].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
 
                 }
                 else if (type === "h2"){
@@ -314,6 +317,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[1].style.visibility = visible;
                     brick[2].style.visibility = visible;
                     brick[3].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
 
                 }
                 else if (type === "h3"){
@@ -329,6 +333,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[1].style.visibility = "hidden";
                     brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+16).toString());
                     brick[1].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
                 }
                 else if (type === "h4"){
                     brick[3].style.visibility = "hidden";
@@ -343,6 +348,8 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[0].style.visibility = "hidden";
                     brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+16).toString());
                     brick[0].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
+
                 }else if (type === "v1"){
                     brick[3].style.visibility = "hidden";
                     brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+16).toString());
@@ -356,6 +363,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[1].style.visibility = "hidden";
                     brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+16).toString());
                     brick[1].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
                 }else if (type === "v2"){
                     brick[3].style.visibility = "hidden";
                     brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+16).toString());
@@ -369,6 +377,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[1].style.visibility = "hidden";
                     brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+16).toString());
                     brick[1].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
                 }else if (type === "v3"){
                     brick[3].style.visibility = "hidden";
                     brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+16).toString());
@@ -382,7 +391,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[0].style.visibility = "hidden";
                     brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+16).toString());
                     brick[0].style.visibility = visible;
-
+                    currentBricks.angleBrick = brick;
                 }
                 else if (type === "v4"){
                     brick[3].style.visibility = "hidden";
@@ -397,7 +406,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[0].style.visibility = "hidden";
                     brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+16).toString());
                     brick[0].style.visibility = visible;
-
+                    currentBricks.angleBrick = brick;
                 }
 
                 //Stop the brick downing : at base
@@ -417,7 +426,7 @@ window.addEventListener("DOMContentLoaded",function () {
         }
         else if (direction === "left"){
 
-            timers[1]=setTimeout(()=>{
+            timers[1]=setTimeout(() => {
                 if (type === "h1" || type === "h3" || type === "h2" || type === "v3"){
 
                     brick[3].style.visibility = "hidden";
@@ -432,6 +441,7 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[0].style.visibility = "hidden";
                     brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+1).toString());
                     brick[0].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
 
                 }
                 else if (type === "h4"){
@@ -448,27 +458,31 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[3].style.visibility = "hidden";
                     brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+1).toString());
                     brick[3].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
+
                 }else if (type === "v1" || type === "v4"){
 
-                    brick[0].style.visibility = "hidden";
+                    brick[0].style.visibility = hidden;
                     brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+1).toString());
                     brick[0].style.visibility = visible;
-                    brick[1].style.visibility = "hidden";
+                    brick[1].style.visibility = hidden;
                     brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
                     brick[1].style.visibility = visible;
-                    brick[2].style.visibility = "hidden";
+                    brick[2].style.visibility = hidden;
                     brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+1).toString());
                     brick[2].style.visibility = visible;
-                    brick[3].style.visibility = "hidden";
+                    brick[3].style.visibility = hidden;
                     brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+1).toString());
                     brick[3].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
 
                 }
                 else if (type === "v2"){
-                    brick[1].style.visibility = "hidden";
+
+                    brick[1].style.visibility = hidden;
                     brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
                     brick[1].style.visibility = visible;
-                    brick[2].style.visibility = "hidden";
+                    brick[2].style.visibility = hidden;
                     brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+1).toString());
                     brick[2].style.visibility = visible;
                     brick[3].style.visibility = "hidden";
@@ -477,6 +491,8 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[0].style.visibility = "hidden";
                     brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+1).toString());
                     brick[0].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
+
                 }
             },speed)
         }
@@ -490,31 +506,160 @@ window.addEventListener("DOMContentLoaded",function () {
                     brick[1].style.visibility = "hidden";
                     brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))-1).toString());
                     brick[1].style.visibility = visible;
-                    brick[2].style.visibility = "hidden";
+                    brick[2].style.visibility = hidden;
                     brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))-1).toString());
                     brick[2].style.visibility = visible;
-                    brick[3].style.visibility = "hidden";
+                    brick[3].style.visibility = hidden;
                     brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))-1).toString());
                     brick[3].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
 
                 }
                 else if (type === "h4" | "v1" | "v4" ){
 
-                    brick[3].style.visibility = "hidden";
+                    brick[3].style.visibility = hidden;
                     brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))-1).toString());
                     brick[3].style.visibility = visible;
-                    brick[2].style.visibility = "hidden";
+                    brick[2].style.visibility = hidden;
                     brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))-1).toString());
                     brick[2].style.visibility = visible;
-                    brick[1].style.visibility = "hidden";
+                    brick[1].style.visibility = hidden;
                     brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))-1).toString());
                     brick[1].style.visibility = visible;
-                    brick[0].style.visibility = "hidden";
+                    brick[0].style.visibility = hidden;
                     brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
                     brick[0].style.visibility = visible;
+                    currentBricks.angleBrick = brick;
                 }
 
             },speed)
+        }
+
+    }
+
+    //Instant rotation of an angleBrick, while downing
+    let rotateBrick = function(brick = []){
+        let type = brickType(brick);
+        clearInterval(timers[0]);
+
+        if (type === "h1"){
+            brick[0].style.visibility = hidden;
+            brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+32).toString());
+            brick[0].style.visibility = visible;
+            console.log(brick);
+            angleShift(brick);
+        }
+        else if (type === "h2"){
+            brick[0].style.visibility = hidden;
+            brick[1].style.visibility = hidden;
+            brick[2].style.visibility = hidden;
+            brick[3].style.visibility = hidden;
+            brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-16).toString());
+            brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
+            brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+1).toString());
+            brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+16).toString());
+            brick[3].style.visibility = visible;
+            brick[2].style.visibility = visible;
+            brick[1].style.visibility = visible;
+            brick[0].style.visibility = visible;
+            angleShift(brick);
+            console.log(brick);
+        }
+        else if (type === "h3"){
+            brick[0].style.visibility = hidden;
+            brick[1].style.visibility = hidden;
+            brick[2].style.visibility = hidden;
+            brick[3].style.visibility = hidden;
+            brick[0] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))-16).toString());
+            brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
+            brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))-1).toString());
+            brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))-18).toString());
+            brick[3].style.visibility = visible;
+            brick[2].style.visibility = visible;
+            brick[1].style.visibility = visible;
+            brick[0].style.visibility = visible;
+            angleShift(brick);
+            console.log(brick);
+        }
+        else if (type === "h4"){
+            brick[0].style.visibility = hidden;
+            brick[1].style.visibility = hidden;
+            brick[2].style.visibility = hidden;
+            brick[3].style.visibility = hidden;
+            brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-2).toString());
+            brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))-2).toString());
+            //brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))-1).toString());
+            brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+2).toString());
+            brick[3].style.visibility = visible;
+            brick[2].style.visibility = visible;
+            brick[1].style.visibility = visible;
+            brick[0].style.visibility = visible;
+            angleShift(brick);
+            console.log(brick);
+        }
+        else if (type === "v1"){
+            brick[0].style.visibility = hidden;
+            brick[1].style.visibility = hidden;
+            brick[2].style.visibility = hidden;
+            brick[3].style.visibility = hidden;
+            brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
+            brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
+            brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+1).toString());
+            brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+1).toString());
+            brick[3].style.visibility = visible;
+            brick[2].style.visibility = visible;
+            brick[1].style.visibility = visible;
+            brick[0].style.visibility = visible;
+            angleShift(brick);
+            console.log(brick);
+        }
+        else if (type === "v2"){
+            brick[0].style.visibility = hidden;
+            brick[1].style.visibility = hidden;
+            brick[2].style.visibility = hidden;
+            brick[3].style.visibility = hidden;
+            //brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
+            brick[1] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+16).toString());
+            brick[2] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))-1).toString());
+            //brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+1).toString());
+            brick[3].style.visibility = visible;
+            brick[2].style.visibility = visible;
+            brick[1].style.visibility = visible;
+            brick[0].style.visibility = visible;
+            angleShift(brick);
+            console.log(brick);
+        }
+        else if (type === "v3"){
+            brick[0].style.visibility = hidden;
+            brick[1].style.visibility = hidden;
+            brick[2].style.visibility = hidden;
+            brick[3].style.visibility = hidden;
+            brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))+1).toString());
+            brick[1] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+1).toString());
+            brick[2] = document.querySelector("#b"+(parseInt(brick[2].id.substring(1))+1).toString());
+            brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))-1).toString());
+            brick[3].style.visibility = visible;
+            brick[2].style.visibility = visible;
+            brick[1].style.visibility = visible;
+            brick[0].style.visibility = visible;
+            angleShift(brick);
+            console.log(brick);
+        }
+        else if (type === "v4"){
+            brick[0].style.visibility = hidden;
+            brick[1].style.visibility = hidden;
+            brick[2].style.visibility = hidden;
+            brick[3].style.visibility = hidden;
+            //brick[0] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
+            brick[1] = document.querySelector("#b"+(parseInt(brick[0].id.substring(1))-1).toString());
+            brick[2] = document.querySelector("#b"+(parseInt(brick[1].id.substring(1))+16).toString());
+            //brick[3] = document.querySelector("#b"+(parseInt(brick[3].id.substring(1))+1).toString());
+            brick[3].style.visibility = visible;
+            brick[2].style.visibility = visible;
+            brick[1].style.visibility = visible;
+            brick[0].style.visibility = visible;
+            angleShift(brick);
+            console.log(brick);
         }
     }
 
@@ -524,10 +669,10 @@ window.addEventListener("DOMContentLoaded",function () {
 
     //let brick = squaredBrick();
   //  shiftSquare(brick,"down");
-        let brick = rightAngleBrick("v2");
-        angleShift(brick,brickType(brick),"right",700);
+        let brick = rightAngleBrick("v4");
         console.log(brickType(brick));
-        console.log(brick);
+        angleShift(brick,brickType(brick),"down",700);
+
 
     document.addEventListener("keydown",(e)=>{
         if (e.code === "ArrowLeft"){
@@ -537,6 +682,9 @@ window.addEventListener("DOMContentLoaded",function () {
         else if (e.code === "ArrowRight"){
             shiftSquare(brick,"left",200);
             shiftSquare(brick,"down");
+        }
+        else if (e.code === "KeyR"){
+            rotateBrick(currentBricks.angleBrick);
         }
 
     })
