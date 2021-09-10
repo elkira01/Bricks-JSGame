@@ -1,6 +1,9 @@
 window.addEventListener("DOMContentLoaded",function () {
     const visible = "visible";
     const hidden = "hidden";
+    const down = "down";
+    const left = "left";
+    const right = "right";
     let timers = [];
     let colors = ["chartreuse","crimson","cyan","gold"];
     let currentBricks = {"angleBrick":[],"stairBrick":[],"rectBrick":[]}; //A variable to track down the current position of the moving brick, witch might be usefull in case we need to apply instant modification
